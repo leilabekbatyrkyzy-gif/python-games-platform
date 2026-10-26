@@ -5,9 +5,11 @@ export const games = [
 {id:'tic',category:'puzzle',runtime:'javascript',art:'tic-art',load:()=>import('./games.js').then(m=>m.tic)},
 {id:'kylyshKalkan',category:'arcade',runtime:'web',art:'sword-art',href:'games/kylysh-kalkan/index.html'},
 {id:'shakhmatAI',category:'puzzle',runtime:'web',art:'chess-art',href:'games/shakhmat-ai/index.html'},
-{id:'pong',category:'arcade',runtime:'web',art:'pong-art',href:'games/pong/index.html'}
+{id:'pong',category:'arcade',runtime:'web',art:'pong-art',href:'games/pong/index.html'},
+{id:'pazl',category:'puzzle',runtime:'web',art:'memory-art',href:'games/pazl/index.html'}
 ];
 export function artwork(id) {
+if(id==='pazl')return '<svg viewBox="0 0 160 160" width="160" height="160" xmlns="http://www.w3.org/2000/svg"><rect x="12" y="12" width="136" height="136" rx="18" fill="#372e72"/><g font-family="Arial" font-size="28" font-weight="bold" text-anchor="middle" fill="#fff"><rect x="20" y="20" width="55" height="55" rx="9" fill="#9070f7"/><text x="47" y="58">1</text><rect x="84" y="20" width="55" height="55" rx="9" fill="#697ef5"/><text x="111" y="58">2</text><rect x="20" y="84" width="55" height="55" rx="9" fill="#697ef5"/><text x="47" y="122">3</text></g></svg>';
 if(id==='pong')return '<svg class="pong-icon" viewBox="0 0 180 140" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M90 10v120" stroke="#ffffff30" stroke-width="3" stroke-dasharray="6 8"/><rect x="20" y="48" width="12" height="62" rx="4" fill="#c4f66c"/><rect x="148" y="20" width="12" height="62" rx="4" fill="#b69ae9"/><circle cx="111" cy="80" r="9" fill="#fff"/></svg>';
 
 if(id==='shakhmatAI')return '<svg class="chess-piece" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M80 16v30M67 29h26" stroke="#d9c5ff" stroke-width="9" stroke-linecap="round"/><path d="M51 52h58l-9 24H60Z" fill="#b69ae9"/><path d="M65 79h30l8 37H57Z" fill="#d9c5ff"/><path d="M51 117h58l8 17H43Z" fill="#b69ae9"/><rect x="38" y="135" width="84" height="12" rx="5" fill="#d9c5ff"/></svg>';
