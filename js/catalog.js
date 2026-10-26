@@ -6,9 +6,11 @@ export const games = [
 {id:'kylyshKalkan',category:'arcade',runtime:'web',art:'sword-art',href:'games/kylysh-kalkan/index.html'},
 {id:'shakhmatAI',category:'puzzle',runtime:'web',art:'chess-art',href:'games/shakhmat-ai/index.html'},
 {id:'pong',category:'arcade',runtime:'web',art:'pong-art',href:'games/pong/index.html'},
-{id:'pazl',category:'puzzle',runtime:'web',art:'memory-art',href:'games/pazl/index.html'}
+{id:'pazl',category:'puzzle',runtime:'web',art:'memory-art',href:'games/pazl/index.html'},
+{id:'flappyAdventure',category:'arcade',runtime:'web',art:'pong-art',href:'games/flappy-adventure/index.html'}
 ];
 export function artwork(id) {
+if(id==='flappyAdventure')return '<svg viewBox="0 0 180 140" xmlns="http://www.w3.org/2000/svg"><rect x="12" y="16" width="32" height="108" rx="5" fill="#7ccf5e"/><rect x="138" y="16" width="32" height="45" rx="5" fill="#7ccf5e"/><rect x="138" y="99" width="32" height="25" rx="5" fill="#7ccf5e"/><ellipse cx="90" cy="70" rx="28" ry="22" fill="#f6d21c"/><ellipse cx="79" cy="77" rx="15" ry="9" fill="#fff"/><circle cx="103" cy="60" r="9" fill="#fff"/><circle cx="105" cy="60" r="4" fill="#222"/><path d="M111 70 132 78 111 85Z" fill="#ff7b22"/></svg>';
 if(id==='pazl')return '<svg viewBox="0 0 160 160" width="160" height="160" xmlns="http://www.w3.org/2000/svg"><rect x="12" y="12" width="136" height="136" rx="18" fill="#372e72"/><g font-family="Arial" font-size="28" font-weight="bold" text-anchor="middle" fill="#fff"><rect x="20" y="20" width="55" height="55" rx="9" fill="#9070f7"/><text x="47" y="58">1</text><rect x="84" y="20" width="55" height="55" rx="9" fill="#697ef5"/><text x="111" y="58">2</text><rect x="20" y="84" width="55" height="55" rx="9" fill="#697ef5"/><text x="47" y="122">3</text></g></svg>';
 if(id==='pong')return '<svg class="pong-icon" viewBox="0 0 180 140" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M90 10v120" stroke="#ffffff30" stroke-width="3" stroke-dasharray="6 8"/><rect x="20" y="48" width="12" height="62" rx="4" fill="#c4f66c"/><rect x="148" y="20" width="12" height="62" rx="4" fill="#b69ae9"/><circle cx="111" cy="80" r="9" fill="#fff"/></svg>';
 
