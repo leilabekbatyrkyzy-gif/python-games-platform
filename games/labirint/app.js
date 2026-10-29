@@ -1,14 +1,14 @@
 import { generateMaze, solveMaze } from './maze.js';
 const translations = {
-  kk: { title:'Ақылды лабиринт', back:'← Ойындарға', intro:'Шығатын жолды тап. Қаласаң, BFS көмекшісі дұрыс бағытты көрсетеді.', difficulty:'Күрделілік', levels:['Оңай','Орташа','Қиын'], solve:'AI жолды көрсету', reset:'Жаңа лабиринт', sound:'Дыбыс', on:'қосулы', off:'өшірулі', help:'Бағыттауыштар немесе WASD, экран батырмалары не свайп. Enter — көмек, Space — жаңа ойын.', note:'labirint.py негізіндегі браузерлік бейімдеу. Көк жол — BFS шешімі; оны көрсету жеңіс болып саналмайды.', player:'● Сен', goal:'■ Мақсат', playing:'Мақсатқа жет!', won:'ЖЕҢІС! Мақсатқа жеттің.', solved:'BFS жолы көрсетілді', steps:'қадам', up:'Жоғары', down:'Төмен', left:'Солға', right:'Оңға' },
-  ru: { title:'Умный лабиринт', back:'← К играм', intro:'Найди выход. Если понадобится, помощник BFS покажет правильный путь.', difficulty:'Сложность', levels:['Легко','Средне','Сложно'], solve:'AI: показать путь', reset:'Новый лабиринт', sound:'Звук', on:'включён', off:'выключен', help:'Стрелки или WASD, экранные кнопки или свайп. Enter — помощь, Space — новая игра.', note:'Браузерная адаптация labirint.py. Синий путь — решение BFS; его показ не считается победой.', player:'● Ты', goal:'■ Цель', playing:'Доберись до цели!', won:'ПОБЕДА! Ты у цели.', solved:'Путь BFS показан', steps:'шагов', up:'Вверх', down:'Вниз', left:'Влево', right:'Вправо' },
-  en: { title:'Smart Maze', back:'← Back to games', intro:'Find the exit. Need a hand? The BFS helper can reveal the right path.', difficulty:'Difficulty', levels:['Easy','Medium','Hard'], solve:'AI: reveal path', reset:'New maze', sound:'Sound', on:'on', off:'off', help:'Arrow keys or WASD, on-screen buttons, or swipe. Enter for a hint; Space for a new maze.', note:'Browser adaptation of labirint.py. The blue route is a BFS solution; revealing it does not count as a win.', player:'● You', goal:'■ Goal', playing:'Reach the goal!', won:'YOU WIN! Goal reached.', solved:'BFS route revealed', steps:'steps', up:'Up', down:'Down', left:'Left', right:'Right' }
+  kk: { minimum:'Ең аз қадам', retry:'Осы лабиринтті қайта өту', perfect:'ЖЕҢІС! Ең қысқа жолмен жеттің!', longer:'Мәреге жеттің, бірақ бұл ең қысқа жол емес. Қайта байқап көр!', extra:'Артық қадам', title:'Ақылды лабиринт', back:'← Ойындарға', intro:'Бірнеше бағыттың ішінен ең қысқа жолды тап. Жеңіс — ең аз қадаммен жету!', difficulty:'Күрделілік', levels:['Оңай','Орташа','Қиын'], solve:'AI жолды көрсету', reset:'Жаңа лабиринт', sound:'Дыбыс', on:'қосулы', off:'өшірулі', help:'Бағыттауыштар немесе WASD, экран батырмалары не свайп. Enter — көмек, Space — жаңа ойын.', note:'labirint.py негізіндегі браузерлік бейімдеу. Көк жол — BFS шешімі; оны көрсету жеңіс болып саналмайды.', player:'● Сен', goal:'■ Мақсат', playing:'Мақсатқа жет!', won:'ЖЕҢІС! Мақсатқа жеттің.', solved:'BFS жолы көрсетілді', steps:'қадам', up:'Жоғары', down:'Төмен', left:'Солға', right:'Оңға' },
+  ru: { minimum:'Минимум шагов', retry:'Повторить этот лабиринт', perfect:'ПОБЕДА! Пройден кратчайший путь!', longer:'Ты у цели, но путь не самый короткий. Попробуй ещё раз!', extra:'Лишних шагов', title:'Умный лабиринт', back:'← К играм', intro:'Выбери кратчайший из нескольких путей. Победа — за минимальное число шагов!', difficulty:'Сложность', levels:['Легко','Средне','Сложно'], solve:'AI: показать путь', reset:'Новый лабиринт', sound:'Звук', on:'включён', off:'выключен', help:'Стрелки или WASD, экранные кнопки или свайп. Enter — помощь, Space — новая игра.', note:'Браузерная адаптация labirint.py. Синий путь — решение BFS; его показ не считается победой.', player:'● Ты', goal:'■ Цель', playing:'Доберись до цели!', won:'ПОБЕДА! Ты у цели.', solved:'Путь BFS показан', steps:'шагов', up:'Вверх', down:'Вниз', left:'Влево', right:'Вправо' },
+  en: { minimum:'Minimum steps', retry:'Retry this maze', perfect:'YOU WIN! Shortest path achieved!', longer:'Goal reached, but this was not the shortest route. Try again!', extra:'Extra steps', title:'Smart Maze', back:'← Back to games', intro:'Choose the shortest of several routes. Win by reaching the goal in the fewest steps!', difficulty:'Difficulty', levels:['Easy','Medium','Hard'], solve:'AI: reveal path', reset:'New maze', sound:'Sound', on:'on', off:'off', help:'Arrow keys or WASD, on-screen buttons, or swipe. Enter for a hint; Space for a new maze.', note:'Browser adaptation of labirint.py. The blue route is a BFS solution; revealing it does not count as a win.', player:'● You', goal:'■ Goal', playing:'Reach the goal!', won:'YOU WIN! Goal reached.', solved:'BFS route revealed', steps:'steps', up:'Up', down:'Down', left:'Left', right:'Right' }
 };
 const $ = id => document.getElementById(id);
 const canvas = $('maze'), ctx = canvas.getContext('2d');
 let language = 'kk';
 try { const saved = localStorage.getItem('python-games-language'); if (translations[saved]) language = saved; } catch {}
-let grid, position, route = [], won = false, size = 31, muted = true, audio, moves = 0;
+let grid, position, route = [], won = false, size = 31, muted = true, audio, moves = 0, minimum = 0, reached = false;
 let hold = null, origin = null;
 const directions = { up:[-1,0], down:[1,0], left:[0,-1], right:[0,1] };
 function tone(frequency) {
@@ -26,14 +26,15 @@ function labels() {
   const t = translations[language];
   document.documentElement.lang = language; document.title = `${t.title} · Python Games`;
   $('language').value = language;
-  for (const key of ['title','back','intro','solve','reset','help','note']) $(key).textContent = t[key];
+  for (const key of ['title','back','intro','solve','reset','retry','help','note']) $(key).textContent = t[key];
   $('difficulty-label').textContent = t.difficulty;
   [...$('difficulty').options].forEach((option,i) => option.textContent = `${t.levels[i]} · ${option.value} × ${option.value}`);
   $('player-label').textContent = t.player; $('goal-label').textContent = t.goal;
   $('sound').textContent = `${t.sound}: ${t[muted ? 'off' : 'on']}`;
   document.querySelector('.dpad').setAttribute('aria-label', t.help);
   document.querySelectorAll('[data-move]').forEach(button => button.setAttribute('aria-label', t[button.dataset.move]));
-  $('status').textContent = `${t[won ? 'won' : route.length ? 'solved' : 'playing']} · ${moves} ${t.steps}`;
+  $('minimum').textContent = `${t.minimum}: ${minimum}`;
+  $('status').textContent = `${t[reached ? won ? 'perfect' : 'longer' : route.length ? 'solved' : 'playing']} · ${moves} ${t.steps}${reached && !won ? ` · ${t.extra}: ${moves-minimum}` : ''}`;
   canvas.setAttribute('aria-label', `${t.title}, ${size} × ${size}. ${t.help}`);
 }
 function draw() {
@@ -52,19 +53,24 @@ function draw() {
 function stopHold() { clearInterval(hold); hold = null; }
 function reset() {
   stopHold(); origin = null; size = Number($('difficulty').value);
-  grid = generateMaze(size); position = [1,1]; route = []; won = false; moves = 0;
+  grid = generateMaze(size); minimum = solveMaze(grid).length - 1; restart();
+}
+function restart() {
+  stopHold(); origin = null; position = [1,1]; route = []; won = false; reached = false; moves = 0;
   tone(380); labels(); draw();
 }
 function move(direction) {
-  if (won) return;
+  if (reached) return;
   const [dr,dc] = directions[direction], nr = position[0]+dr, nc = position[1]+dc;
   if (grid[nr]?.[nc] !== 0) return;
   position = [nr,nc]; moves++;
-  won = nr===size-2 && nc===size-2;
+  reached = nr===size-2 && nc===size-2;
+  won = reached && moves === minimum;
   tone(won ? 880 : 440); labels(); draw();
 }
+$('retry').onclick = restart;
 $('difficulty').onchange = reset; $('reset').onclick = reset;
-$('solve').onclick = () => { if (won || route.length) return; route = solveMaze(grid); tone(660); labels(); draw(); };
+$('solve').onclick = () => { if (reached || route.length) return; route = solveMaze(grid); tone(660); labels(); draw(); };
 $('sound').onclick = () => { muted = !muted; labels(); tone(600); };
 $('language').onchange = e => { language = e.target.value; try { localStorage.setItem('python-games-language',language); } catch {} labels(); };
 document.addEventListener('keydown', e => {

@@ -9,3 +9,5 @@ Preserved mechanics: randomized depth-first maze generation, 15/31/51-cell diffi
 Desktop source requires Pygame and a GUI/audio-capable machine. Desktop execution is not validated in this cloud task. The browser version is JavaScript, not direct execution of the Python source.
 
 Tests: `BASE_URL=http://127.0.0.1:8000 node tests/maze.cjs` from repository root with Playwright and Chromium installed. The scenario checks localized catalog links, all difficulty sizes, walls, BFS validity, actual movement to victory, reset, mobile swipe and keyboard input.
+
+Updated challenge: generation adds three connections between points on the entrance-to-exit route, creating alternative routes. BFS determines the minimum number of cell moves. Reaching the exit wins only when the actual move count equals that minimum; a longer route reports the excess steps. Retry reuses the exact same maze; New maze regenerates it. The archived Python original remains unchanged.

@@ -30,8 +30,14 @@ const assert = require('node:assert/strict');
           return p[0]===15 && p[1]===23 && p[2]===42 ? 1 : 0;
         }));
         if (grid.some((row,i)=>row[0]!==1||row[size-1]!==1||(i===0||i===size-1)&&row.some(v=>v!==1))) throw Error('Open boundary');
+        let vertices=0,edges=0;
+        for(let r=0;r<size;r++)for(let c=0;c<size;c++)if(grid[r][c]===0){vertices++;if(grid[r+1]?.[c]===0)edges++;if(grid[r][c+1]===0)edges++;}
+        if(edges-vertices+1<3)throw Error('Not enough alternative route cycles');
         const route = solveMaze(grid);
         if(!route.length || route.some(([r,c],i)=>grid[r][c]!==0 || i && Math.abs(r-route[i-1][0])+Math.abs(c-route[i-1][1])!==1)) throw Error('Invalid solution');
+        let turns=0;
+        for(let i=2;i<route.length;i++)if(route[i][0]-route[i-1][0]!==route[i-1][0]-route[i-2][0]||route[i][1]-route[i-1][1]!==route[i-1][1]-route[i-2][1])turns++;
+        if(turns<3)throw Error('Route needs at least three turns');
         return route;
       }, size);
     }
@@ -60,6 +66,13 @@ const assert = require('node:assert/strict');
       }
     }, route);
     assert.match(await page.locator('#status').textContent(), /YOU WIN/);
+    assert.match(await page.locator('#minimum').textContent(), new RegExp(String(route.length-1)));
+    await page.click('#retry');
+    assert.deepEqual(await readRoute(15),route);
+    await page.evaluate(route=>{const canvas=document.querySelector('canvas');const send=(a,b)=>{const key=b[0]>a[0]?'ArrowDown':b[0]<a[0]?'ArrowUp':b[1]>a[1]?'ArrowRight':'ArrowLeft';canvas.dispatchEvent(new KeyboardEvent('keydown',{key,bubbles:true,cancelable:true}));};send(route[0],route[1]);send(route[1],route[0]);for(let i=1;i<route.length;i++)send(route[i-1],route[i]);},route);
+    assert.match(await page.locator('#status').textContent(),/not the shortest/);
+    assert.match(await page.locator('#status').textContent(),/Extra steps: 2/);
+    assert.doesNotMatch(await page.locator('#status').textContent(),/YOU WIN/);
     await page.click('#reset');
     assert.match(await page.locator('#status').textContent(), /0 steps/);
     await page.setViewportSize({width:390,height:844});
@@ -72,6 +85,6 @@ const assert = require('node:assert/strict');
     assert.match(await page.locator('#status').textContent(), /1 steps/);
     await page.screenshot({path:'/tmp/python-games-maze-mobile.png',fullPage:true});
     assert.deepEqual(errors, []);
-    console.log('PASS: 3 localized catalog links, all sizes, enclosed walls, valid BFS, hint is not victory, wall collision, direction button, keyboard route to win, reset, mobile swipe/layout, no JS errors.');
+    console.log('PASS: 3 localized catalog links, all sizes, enclosed walls, valid BFS, hint is not victory, wall collision, direction button, optimal victory, longer route rejected with excess steps, identical-maze retry, three alternative connections/turns, reset, mobile swipe/layout, no JS errors.');
   } finally { await browser.close(); }
 })().catch(e => { console.error(e); process.exit(1); });
