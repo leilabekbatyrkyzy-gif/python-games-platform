@@ -8,9 +8,12 @@ export const games = [
 {id:'pong',category:'arcade',runtime:'web',art:'pong-art',href:'games/pong/index.html'},
 {id:'pazl',category:'puzzle',runtime:'web',art:'memory-art',href:'games/pazl/index.html'},
 {id:'flappyAdventure',category:'arcade',runtime:'web',art:'pong-art',href:'games/flappy-adventure/index.html'},
-{id:'labirint',category:'puzzle',runtime:'web',art:'maze-art',href:'games/labirint/index.html'}
+{id:'labirint',category:'puzzle',runtime:'web',art:'maze-art',href:'games/labirint/index.html'},
+{id:'rps',category:'arcade',runtime:'web',art:'rps-art',href:'games/tas-kagaz-kaiwy/index.html'}
 ];
 export function artwork(id) {
+if(id==='rps')return '<svg class="rps-icon" viewBox="0 0 180 140" xmlns="http://www.w3.org/2000/svg"><circle cx="54" cy="55" r="37" fill="#c4f66c"/><rect x="84" y="21" width="58" height="76" rx="9" fill="#b69ae9" transform="rotate(15 113 59)"/><path d="m115 100 25-24m-25 24 29 16" fill="none" stroke="#f1d687" stroke-width="9" stroke-linecap="round"/><g fill="none" stroke="#f1d687" stroke-width="6"><circle cx="101" cy="103" r="10"/><circle cx="113" cy="121" r="10"/></g></svg>';
+
 if(id==='labirint')return '<svg class="maze-icon" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 42V20h120v120H20V64m23-44v76h27V44h43v70H90m-47 26v-22h27m47 22v-27M70 20v24m21 0v26h22M20 96h23" stroke="#b69ae9" stroke-width="8" stroke-linecap="square"/><circle cx="30" cy="54" r="7" fill="#22d3ee"/><rect x="79" y="124" width="13" height="13" rx="3" fill="#c4f66c"/></svg>';
 
 if(id==='flappyAdventure')return '<svg viewBox="0 0 180 140" xmlns="http://www.w3.org/2000/svg"><rect x="12" y="16" width="32" height="108" rx="5" fill="#7ccf5e"/><rect x="138" y="16" width="32" height="45" rx="5" fill="#7ccf5e"/><rect x="138" y="99" width="32" height="25" rx="5" fill="#7ccf5e"/><ellipse cx="90" cy="70" rx="28" ry="22" fill="#f6d21c"/><ellipse cx="79" cy="77" rx="15" ry="9" fill="#fff"/><circle cx="103" cy="60" r="9" fill="#fff"/><circle cx="105" cy="60" r="4" fill="#222"/><path d="M111 70 132 78 111 85Z" fill="#ff7b22"/></svg>';
